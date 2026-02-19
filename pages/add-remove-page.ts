@@ -1,4 +1,4 @@
-import { type Locator, type Page, expect } from "@playwright/test"
+import { type Page, expect } from "@playwright/test"
 
 export class AddRemovePage {
     readonly page: Page;
@@ -17,7 +17,17 @@ export class AddRemovePage {
     }
 
     async assertElementIsRemoved() {
-        await expect(this.page.locator('button.added-manually')).toHaveCount(0);
+        await expect(this.page.getByRole('button', { name: 'Delete' })).not.toBeVisible();
+    }
+
+    async verifyNumberOfElements(expectedCount: number) {
+        const elements = this.page.locator('button.added-manually');
+        await expect(elements).toHaveCount(expectedCount);
+    }
+
+    async removeElementAtIndex(index: number) {
+        const deleteButton = this.page.locator('button.added-manually').nth(index);
+        await deleteButton.click();
     }
 
 
