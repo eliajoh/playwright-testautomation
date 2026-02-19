@@ -1,12 +1,11 @@
 # Playwright Test Automation Project
 
-A **TypeScript**-based test automation suite using [Playwright](https://playwright.dev/) for end-to-end testing. This project includes both **positive and negative test cases** to ensure robust validation of the website under test. This project is made for learning purposes.
+A **TypeScript**-based test automation suite using [Playwright](https://playwright.dev/) for end-to-end testing. This project includes both **positive and negative test cases**. This project is made for learning purposes.
 
 ---
 
 ## Features
 - **End-to-end testing** with Playwright
-- **TypeScript** for type safety and better developer experience
 - **Positive and negative test cases** for comprehensive coverage
 - **Coming soon: CI/CD** with Docker and Jenkins
 
