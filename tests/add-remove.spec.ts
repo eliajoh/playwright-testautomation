@@ -1,10 +1,13 @@
 import {test, expect} from '@playwright/test';
+import { AddRemovePage } from "../pages/add-remove-page";
 
 const URL = 'https://the-internet.herokuapp.com/';
+let addRemovePage: AddRemovePage;
 
 
 test.beforeEach(async( {page}) => {
     await page.goto(`${URL}/add_remove_elements/`);
+    addRemovePage = new AddRemovePage(page);
 });
 
 
@@ -23,11 +26,10 @@ test('Add 3 elements and verify 3 elements have appeared', async ({ page }) => {
 });
 
 
-test('@smoke Remove element', async ({page}) => {
-    await page.getByRole('button', { name: 'Add Element' }).click();
-    await page.getByRole('button', { name: 'Delete' }).click();
-
-    await expect(page.locator('button.added-manually')).toHaveCount(0);
+test('@smoke Remove element and verify it is no longer visible', async ({page}) => {
+    await addRemovePage.addElement();
+    await addRemovePage.removeElement();
+    await addRemovePage.assertElementIsRemoved();
 })
 
 
@@ -42,7 +44,7 @@ test('Remove all elements', async ({page}) => {
         await page.locator('button.added-manually').first().click();
     }
 
-    await expect(page.locator('button.added-manually')).toHaveCount(0);
+    await addRemovePage.assertElementIsRemoved();
 })
 
 
@@ -60,7 +62,7 @@ test('Add 5 elements and remove last', async ({ page }) => {
 
 
 test('Remove non-existent element', async ({ page }) => {
-    await expect(page.locator('button.added-manually')).toHaveCount(0);
+    await addRemovePage.assertElementIsRemoved();
 });
 
 
@@ -70,5 +72,5 @@ test('Add element, leave page, and return', async ({page} ) => {
 
     await page.goto(URL);
     await page.goto(`${URL}/add_remove_elements/`);
-    await expect(page.locator('button.added-manually')).toHaveCount(0);
+    await addRemovePage.assertElementIsRemoved();
 })
