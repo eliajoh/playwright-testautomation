@@ -11,67 +11,59 @@ test.beforeEach(async( {page}) => {
 });
 
 
-test('@smoke Add element and verify 1 element has appeared', async ({page} ) => {
+test('@smoke Add element and verify 1 element has appeared', async ({} ) => {
     await addRemovePage.addElement();
-    await addRemovePage.verifyNumberOfElements(1);
+    await expect(addRemovePage.getNumberOfElements()).resolves.toBe(1);
 })
 
 
-test('Add 3 elements and verify 3 elements have appeared', async ({ page }) => {
-
+test('Add 3 elements and verify 3 elements have appeared', async ({}) => {
     for(let i = 0; i<3; i++) {
         await addRemovePage.addElement();
     }
-
-    await addRemovePage.verifyNumberOfElements(3);
+    await expect(addRemovePage.getNumberOfElements()).resolves.toBe(3);
 });
 
 
 test('@smoke Remove element and verify it is no longer visible', async ({}) => {
     await addRemovePage.addElement();
     await addRemovePage.removeElement();
-    await addRemovePage.assertElementIsRemoved();
+    await expect(addRemovePage.getNumberOfElements()).resolves.toBe(0);
 })
 
 
-test('Remove all elements', async ({page}) => {
-
+test('Remove all elements', async ({}) => {
     for(let i = 0; i<3; i++) {
         await addRemovePage.addElement();
     }
 
-    await addRemovePage.verifyNumberOfElements(3);
-
-    while ((await page.locator('button.added-manually').count()) > 0) {
-        await page.locator('button.added-manually').first().click();
-    }
-
-    await addRemovePage.assertElementIsRemoved();
+    await addRemovePage.removeAllElements();
+    await expect(addRemovePage.getNumberOfElements()).resolves.toBe(0);
 })
 
 
-test('Add 5 elements and remove last', async ({ page }) => {
-
+test('Add 5 elements and remove last', async ({}) => {
     for (let i = 0; i < 5; i++) {
         await addRemovePage.addElement();
-        await addRemovePage.verifyNumberOfElements(i+1);
+        await expect(addRemovePage.getNumberOfElements()).resolves.toBe(i+1);
     }
 
-    await addRemovePage.removeElementAtIndex(4);
-    await addRemovePage.verifyNumberOfElements(4);
+    const currentCount = await addRemovePage.getNumberOfElements();
+    await addRemovePage.removeElementAtIndex(currentCount - 1);
+    await expect(addRemovePage.getNumberOfElements()).resolves.toBe(currentCount -1);
 });
 
 
 test('Remove non-existent element', async ({}) => {
-    await addRemovePage.assertElementIsRemoved();
+    await expect(addRemovePage.getNumberOfElements()).resolves.toBe(0);
 });
 
 
 test('Add element, leave page, and return', async ({page} ) => {
     await addRemovePage.addElement();
-    await addRemovePage.verifyNumberOfElements(1);
+    await expect(addRemovePage.getNumberOfElements()).resolves.toBe(1);
 
     await page.goto(URL);
     await page.goto(`${URL}/add_remove_elements/`);
-    await addRemovePage.assertElementIsRemoved();
+    await expect(addRemovePage.getNumberOfElements()).resolves.toBe(0);
 })
