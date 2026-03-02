@@ -1,7 +1,7 @@
 import {test, expect} from '@playwright/test';
 import { AddRemovePage } from "../pages/add-remove-page";
 
-const URL = 'https://the-internet.herokuapp.com/';
+const URL = 'https://the-internet.herokuapp.com';
 let addRemovePage: AddRemovePage;
 
 
