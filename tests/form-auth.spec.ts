@@ -5,13 +5,15 @@ let formAuthPage: FormAuthPage;
 
 test.beforeEach(async ( {page}) => {
     await page.goto('https://the-internet.herokuapp.com/login');
+    await expect(page.getByRole('heading', { name: 'Login Page' })).toBeVisible();
     formAuthPage = new FormAuthPage(page);
 });
 
-//These testcases only cover the basics as user is a hardcoded user not created by me, where further testcases would be testing such things as special characters and different length of username and password to ensure that all users can log in.
+//These testcases only cover the basics as user is a hardcoded user not created by me. Further testcases would be testing such things as special characters and different length of username and password to ensure that all users can log in.
 
 test.describe('Correct credentials', () => {
     test('Correct username and password', async ( {page}) => {
+        await expect(page.getByRole('textbox', { name: 'Username' })).toBeVisible();
         await formAuthPage.addUsername();
         await formAuthPage.addPassword()
         await page.getByRole('button', { name: 'Login' }).click();
@@ -19,8 +21,10 @@ test.describe('Correct credentials', () => {
     })
 })
 
-test.describe('Incorrect credentials', async () => {
-    test('Correct username and incorrect password', () => {
+test.describe('Incorrect credentials', () => {
+    test('Correct username and incorrect password', async ({page}) => {
+        await expect(page.getByRole('textbox', { name: 'Username' })).toBeVisible();
+        await formAuthPage.addUsername();
 
     })
 
