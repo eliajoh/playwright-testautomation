@@ -25,15 +25,22 @@ test.describe('Incorrect credentials', () => {
     test('Correct username and incorrect password', async ({page}) => {
         await expect(page.getByRole('textbox', { name: 'Username' })).toBeVisible();
         await formAuthPage.addUsername();
-
+        await formAuthPage.addWrongPassword();
+        await page.getByRole('button', { name: 'Login' }).click();
     })
 
-    test('Incorrect username and correct password', async () => {
-
+    test('Incorrect username and correct password', async ( {page}) => {
+        await expect(page.getByRole('textbox', { name: 'Username' })).toBeVisible();
+        await formAuthPage.addWrongUsername();
+        await formAuthPage.addPassword();
+        await page.getByRole('button', { name: 'Login' }).click();
     })
 
-    test('Incorrect username and password', async () => {
-
+    test('Incorrect username and password', async ({page}) => {
+        await expect(page.getByRole('textbox', { name: 'Username' })).toBeVisible();
+        await formAuthPage.addWrongUsername();
+        await formAuthPage.addWrongPassword();
+        await page.getByRole('button', { name: 'Login' }).click();
     })
 
 })
