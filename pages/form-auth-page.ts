@@ -1,4 +1,4 @@
-import { type Page } from "@playwright/test";
+import {expect, type Page} from "@playwright/test";
 
 export class FormAuthPage {
     readonly page: Page;
@@ -29,6 +29,24 @@ export class FormAuthPage {
         const wrongPassword = "anteater5";
         await this.page.getByRole('textbox', { name: 'Password' }).click();
         await this.page.getByRole('textbox', {name: 'Password'}).fill(wrongPassword);
+    }
+
+    async clickLogin() {
+        await expect(this.page.getByRole('button')).toBeVisible();
+        await this.page.getByRole('button', { name: 'Login' }).click();
+    }
+
+    async usernameIsVisible() {
+        await expect(this.page.getByRole('textbox', { name: 'Username' })).toBeVisible();
+    }
+
+    async inputsAreVisible() {
+        await expect(this.page.getByRole('textbox', { name: 'Username' })).toBeVisible();
+        await expect(this.page.getByRole('textbox', { name: 'Password' })).toBeVisible();
+    }
+
+    async loginButtonExists() {
+
     }
 
 

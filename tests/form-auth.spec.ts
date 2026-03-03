@@ -13,34 +13,37 @@ test.beforeEach(async ( {page}) => {
 
 test.describe('Correct credentials', () => {
     test('Correct username and password', async ( {page}) => {
-        await expect(page.getByRole('textbox', { name: 'Username' })).toBeVisible();
+        await formAuthPage.inputsAreVisible();
         await formAuthPage.addUsername();
         await formAuthPage.addPassword()
-        await page.getByRole('button', { name: 'Login' }).click();
+        await formAuthPage.clickLogin();
         await expect(page.getByText('You logged into a secure area')).toBeVisible();
     })
 })
 
 test.describe('Incorrect credentials', () => {
     test('Correct username and incorrect password', async ({page}) => {
-        await expect(page.getByRole('textbox', { name: 'Username' })).toBeVisible();
+        await formAuthPage.inputsAreVisible();
         await formAuthPage.addUsername();
         await formAuthPage.addWrongPassword();
-        await page.getByRole('button', { name: 'Login' }).click();
+        await formAuthPage.clickLogin();
+        await expect (page.getByText('Your password is invalid')).toBeVisible();
     })
 
     test('Incorrect username and correct password', async ( {page}) => {
-        await expect(page.getByRole('textbox', { name: 'Username' })).toBeVisible();
+        await formAuthPage.inputsAreVisible();
         await formAuthPage.addWrongUsername();
         await formAuthPage.addPassword();
-        await page.getByRole('button', { name: 'Login' }).click();
+        await formAuthPage.clickLogin();
+        await expect(page.getByText('Your username is invalid')).toBeVisible();
     })
 
     test('Incorrect username and password', async ({page}) => {
-        await expect(page.getByRole('textbox', { name: 'Username' })).toBeVisible();
+        await formAuthPage.inputsAreVisible();
         await formAuthPage.addWrongUsername();
         await formAuthPage.addWrongPassword();
-        await page.getByRole('button', { name: 'Login' }).click();
+        await formAuthPage.clickLogin();
+        await expect(page.getByText('Your username is invalid')).toBeVisible();
     })
 
 })
