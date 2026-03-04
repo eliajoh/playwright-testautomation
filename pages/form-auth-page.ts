@@ -19,6 +19,15 @@ export class FormAuthPage {
         await this.page.getByRole('textbox', { name: 'Password' }).fill(password);
     }
 
+    async addCredentials() {
+        const username = "tomsmith";
+        const password = "SuperSecretPassword!";
+        await this.page.getByRole('textbox', { name: 'username' }).click();
+        await this.page.getByRole('textbox', { name: 'username' }).fill(username);
+        await this.page.getByRole('textbox', { name: 'Password' }).click();
+        await this.page.getByRole('textbox', { name: 'Password' }).fill(password);
+    }
+
     async addWrongUsername() {
         const WrongUsername = "Lampan Larsson";
         await this.page.getByRole('textbox', { name: 'username' }).click();
@@ -36,17 +45,21 @@ export class FormAuthPage {
         await this.page.getByRole('button', { name: 'Login' }).click();
     }
 
-    async usernameIsVisible() {
-        await expect(this.page.getByRole('textbox', { name: 'Username' })).toBeVisible();
-    }
-
     async inputsAreVisible() {
         await expect(this.page.getByRole('textbox', { name: 'Username' })).toBeVisible();
         await expect(this.page.getByRole('textbox', { name: 'Password' })).toBeVisible();
     }
 
-    async loginButtonExists() {
+    async loginSuccess() {
+        await expect(this.page.getByText('You logged into a secure area')).toBeVisible();
+    }
 
+    async userNameIsInvalid() {
+        await expect(this.page.getByText('Your username is invalid')).toBeVisible();
+    }
+
+    async passwordIsInvalid() {
+        await expect (this.page.getByText('Your password is invalid')).toBeVisible();
     }
 
 
