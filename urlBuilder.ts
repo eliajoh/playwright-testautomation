@@ -1,7 +1,18 @@
 
 const BASE_URL = 'https://the-internet.herokuapp.com';
 
-export function buildUrl(...pathSegments: string[]): string {
-    const path = pathSegments.join('/');
-    return `${BASE_URL}/${path}`;
+interface PageConfig {
+    path: string;
+    trailingSlash?: boolean;
+}
+
+const PAGES: Record<string, PageConfig> = {
+    addRemoveElements: { path: 'add_remove_elements', trailingSlash: true },
+    login: { path: 'login', trailingSlash: false },
+    home: { path: '', trailingSlash: false },
+};
+
+export function buildUrl(pageKey: keyof typeof PAGES): string {
+    const { path, trailingSlash } = PAGES[pageKey];
+    return `${BASE_URL}/${path}${trailingSlash ? '/' : ''}`;
 }

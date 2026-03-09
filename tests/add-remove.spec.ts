@@ -6,7 +6,7 @@ let addRemovePage: AddRemovePage;
 
 
 test.beforeEach(async( {page}) => {
-    const url = buildUrl('add_remove_elements/')
+    const url = buildUrl('addRemoveElements')
     await page.goto(url);
     addRemovePage = new AddRemovePage(page);
 });
@@ -64,9 +64,7 @@ test('Add element, leave page, and return', async ({page} ) => {
     await addRemovePage.addElement();
     await expect(addRemovePage.getNumberOfElements()).resolves.toBe(1);
 
-    await page.goto(buildUrl());
-    await page.goto(buildUrl('add_remove_elements/'));
-    //await page.goto(URL);
-    //await page.goto(`${URL}/add_remove_elements/`);
+    await page.goto(buildUrl('home'));
+    await page.goto(buildUrl('addRemoveElements'));
     await expect(addRemovePage.getNumberOfElements()).resolves.toBe(0);
 })
