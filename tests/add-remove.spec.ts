@@ -1,12 +1,13 @@
 import {test, expect} from '@playwright/test';
 import { AddRemovePage } from "../pages/add-remove-page";
+import {buildUrl} from "../urlBuilder";
 
-const URL = 'https://the-internet.herokuapp.com';
 let addRemovePage: AddRemovePage;
 
 
 test.beforeEach(async( {page}) => {
-    await page.goto(`${URL}/add_remove_elements/`);
+    const url = buildUrl('add_remove_elements/')
+    await page.goto(url);
     addRemovePage = new AddRemovePage(page);
 });
 
@@ -63,7 +64,9 @@ test('Add element, leave page, and return', async ({page} ) => {
     await addRemovePage.addElement();
     await expect(addRemovePage.getNumberOfElements()).resolves.toBe(1);
 
-    await page.goto(URL);
-    await page.goto(`${URL}/add_remove_elements/`);
+    await page.goto(buildUrl());
+    await page.goto(buildUrl('add_remove_elements/'));
+    //await page.goto(URL);
+    //await page.goto(`${URL}/add_remove_elements/`);
     await expect(addRemovePage.getNumberOfElements()).resolves.toBe(0);
 })
