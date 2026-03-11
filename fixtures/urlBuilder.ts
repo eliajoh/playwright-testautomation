@@ -1,3 +1,4 @@
+import { test as base } from '@playwright/test';
 
 const BASE_URL = 'https://the-internet.herokuapp.com';
 
@@ -16,3 +17,9 @@ export function buildUrl(pageKey: keyof typeof PAGES): string {
     const { path, trailingSlash } = PAGES[pageKey];
     return `${BASE_URL}/${path}${trailingSlash ? '/' : ''}`;
 }
+
+export const test = base.extend({
+    buildUrl: async ({}, use) => {
+        use(buildUrl);
+    },
+});

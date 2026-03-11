@@ -1,13 +1,12 @@
 import {test, expect} from '@playwright/test';
 import { AddRemovePage } from "../pages/add-remove-page";
-import {buildUrl} from "../urlBuilder";
+import {buildUrl} from "../fixtures/urlBuilder";
 
 let addRemovePage: AddRemovePage;
 
 
 test.beforeEach(async( {page}) => {
-    const url = buildUrl('addRemoveElements')
-    await page.goto(url);
+    await page.goto(buildUrl('addRemoveElements'));
     addRemovePage = new AddRemovePage(page);
 });
 

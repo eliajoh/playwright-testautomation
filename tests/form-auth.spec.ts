@@ -1,13 +1,12 @@
 import {test, expect} from "@playwright/test";
 import FormAuthPage from "../pages/form-auth-page";
-import {buildUrl} from "../urlBuilder";
+import {buildUrl} from "../fixtures/urlBuilder";
 
 let formAuthPage: FormAuthPage;
 
 
 test.beforeEach(async ( {page}) => {
-    const url = buildUrl('login')
-    await page.goto(url);
+    await page.goto(buildUrl('login'))
     await expect(page.getByRole('heading', { name: 'Login Page' })).toBeVisible();
     formAuthPage = new FormAuthPage(page);
 });
