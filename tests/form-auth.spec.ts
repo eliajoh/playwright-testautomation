@@ -1,6 +1,9 @@
 import {test, expect} from "@playwright/test";
 import FormAuthPage from "../pages/form-auth-page";
 import {buildUrl} from "../fixtures/urlBuilder";
+import dotenv from 'dotenv'
+
+dotenv.config();
 
 let formAuthPage: FormAuthPage;
 
@@ -16,8 +19,7 @@ test.beforeEach(async ( {page}) => {
 test.describe('Correct credentials', () => {
     test('Correct username and password', async () => {
         await formAuthPage.inputsAreVisible();
-        await formAuthPage.addCredentials();
-        await formAuthPage.clickLogin();
+        await formAuthPage.loginWithCorrectCredentials();
         await formAuthPage.loginSuccess();
     })
 })
@@ -25,25 +27,19 @@ test.describe('Correct credentials', () => {
 test.describe('Incorrect credentials', () => {
     test('Correct username and incorrect password', async () => {
         await formAuthPage.inputsAreVisible();
-        await formAuthPage.addUsername();
         await formAuthPage.addWrongPassword();
-        await formAuthPage.clickLogin();
         await formAuthPage.passwordIsInvalid();
     })
 
     test('Incorrect username and correct password', async () => {
         await formAuthPage.inputsAreVisible();
         await formAuthPage.addWrongUsername();
-        await formAuthPage.addPassword();
-        await formAuthPage.clickLogin();
         await formAuthPage.userNameIsInvalid();
     })
 
     test('Incorrect username and password', async () => {
         await formAuthPage.inputsAreVisible();
-        await formAuthPage.addWrongUsername();
-        await formAuthPage.addWrongPassword();
-        await formAuthPage.clickLogin();
+        await formAuthPage.addFaultyCredentials();
         await formAuthPage.userNameIsInvalid();
     })
 
